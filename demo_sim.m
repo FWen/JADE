@@ -78,10 +78,10 @@ for snr=1:length(SNR)
         theta_e = theta + 2*rand(size(theta));
         phi_e   = phi + 2*rand(size(theta));
         Rs = X*X'/K;
-        if SNR(snr)<=-10
+        if SNR(snr)<=-10 % initialization for ML algorithm for DOA-only estimation
             [theta_e, phi_e] = delay_sum_init(Rs, 0:2:180, 0:2:90, K_pos, L);
         end
-        if SNR(snr)>10
+        if SNR(snr)>10 % initialization for ML algorithm for DOA-only estimation
             theta_e = theta + 1*rand(size(theta));
             phi_e   = phi + 1*rand(size(theta));
         end
@@ -107,14 +107,14 @@ for snr=1:length(SNR)
 
 
 
-        %-- AML algorithm for jiont DOA and TD estimation--------------
+        %-- Proposed AML algorithm for jiont DOA and TD estimation--------------
         iters = [2,4];
         for n_iter=1:length(iters)
             theta_l = [];  phi_l   = [];
             tof_l   = [];  beta_l  = [];
             for l=1:L
 
-                % initialization
+                % initialization for AML algorithm for jiont DOA and TD estimation
                 if isempty(theta_l)
                     X_res = X;
                 else
